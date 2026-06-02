@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fdf5f8;
+  color: #1a1a1a;
+}
+
+:root {
+  --rose: #FF6B9D;
+  --rose-dark: #e05085;
+  --rose-light: #fff0f5;
+  --rose-mid: #ffe0ed;
+}

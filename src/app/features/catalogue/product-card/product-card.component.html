@@ -1,0 +1,56 @@
+<div class="card-wrapper">
+
+  <div class="card" appHoverLift [routerLink]="['/produit', product.id]">
+
+    @if (product.discount) {
+      <div class="badge badge--discount">-{{ product.discount }}%</div>
+    } @else if (product.badge === 'Nouveau') {
+      <div class="badge badge--new">Nouveau</div>
+    } @else if (product.badge === 'Stock bas') {
+      <div class="badge badge--low">Stock bas</div>
+    }
+
+    <div class="card-img">
+      <img [src]="product.imageUrl" [alt]="product.name" class="product-photo" loading="lazy" />
+      <button class="btn-card-fav" [class.btn-card-fav--active]="isFavorite()" (click)="toggleFavorite($event)">
+        {{ isFavorite() ? '♥' : '♡' }}
+      </button>
+    </div>
+
+    <div class="card-body">
+      <p class="card-category">{{ product.subCategory }}</p>
+      <h3 class="card-name">{{ product.name }}</h3>
+
+      @if (product.colors && product.colors.length > 0) {
+        <div class="color-swatches">
+          @for (color of product.colors; track color) {
+            <span class="swatch"
+              [style.background]="color"
+              [style.border-color]="color === '#ffffff' ? '#ddd' : color">
+            </span>
+          }
+        </div>
+      }
+
+      <div class="card-price-row">
+        <span class="card-price">{{ product.price }} MAD</span>
+        @if (product.originalPrice) {
+          <span class="card-price-old">{{ product.originalPrice }} MAD</span>
+        }
+      </div>
+
+      <p class="card-stock" [class.stock-low]="product.stock <= 5">
+        @if (product.stock > 5) { ✓ En stock } @else { ⚠ Plus que {{ product.stock }} en stock }
+      </p>
+    </div>
+
+    <button class="btn-add" (click)="onAddToCart($event)">
+      + Ajouter au panier
+    </button>
+
+  </div>
+
+  <!-- Toast EN DEHORS du .card -->
+  
+
+</div>
