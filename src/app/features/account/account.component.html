@@ -4,16 +4,16 @@
   <div class="account-container">
     <div class="account-sidebar">
       <div class="user-profile">
-        <div class="avatar">S</div>
-        <h3>Sana Alaoui</h3>
-        <p>sana@example.com</p>
+        <div class="avatar">{{ userService.userProfile().name.charAt(0) }}</div>
+        <h3>{{ userService.userProfile().name }}</h3>
+        <p>{{ userService.userProfile().email }}</p>
       </div>
       <nav class="account-nav">
         <a href="#" class="nav-item" [class.active]="activeTab === 'dashboard'" (click)="changeTab('dashboard', $event)">Tableau de bord</a>
         <a href="#" class="nav-item" [class.active]="activeTab === 'orders'" (click)="changeTab('orders', $event)">Mes commandes</a>
         <a routerLink="/favoris" class="nav-item">Mes favoris</a>
         <a href="#" class="nav-item" [class.active]="activeTab === 'settings'" (click)="changeTab('settings', $event)">Paramètres</a>
-        <a href="#" class="nav-item text-danger" (click)="logout($event)">Déconnexion</a>
+        <button type="button" class="btn-logout" (click)="logout()">Déconnexion</button>
       </nav>
     </div>
     
@@ -88,15 +88,20 @@
       @if (activeTab === 'settings') {
         <h2>Paramètres</h2>
         <div class="settings-form">
-          <div class="form-group" style="margin-bottom: 16px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Nom complet</label>
-            <input type="text" value="Sana Alaoui" class="input-setting" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <div class="form-group">
+            <label for="fullName">Nom complet</label>
+            <input id="fullName" type="text" [(ngModel)]="fullName" class="input-setting" placeholder="Votre nom complet">
           </div>
-          <div class="form-group" style="margin-bottom: 16px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Adresse e-mail</label>
-            <input type="email" value="sana@example.com" class="input-setting" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input id="email" type="email" [(ngModel)]="email" class="input-setting" placeholder="votre@email.com">
           </div>
-          <button class="btn-dash" style="background: #FF6B9D; color: white; border: none; padding: 12px 24px;">Enregistrer les modifications</button>
+          @if (saveMessage) {
+            <p class="save-success">{{ saveMessage }}</p>
+          }
+          <button type="button" class="btn-save" (click)="saveSettings()" [disabled]="!fullName.trim() || !email.trim()">
+            Enregistrer les modifications
+          </button>
         </div>
       }
     </div>
