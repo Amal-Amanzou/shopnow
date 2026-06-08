@@ -1,0 +1,69 @@
+<app-header [cartCount]="cartCount()" [favoriteCount]="favoriteCount()"></app-header>
+
+@if (showToast) {
+  <div class="toast-global">✓ Ajouté au panier !</div>
+}
+
+<div class="breadcrumb-bar">
+  <span class="breadcrumb-item">Accueil</span>
+  <span class="breadcrumb-sep">›</span>
+  <span class="breadcrumb-item breadcrumb-active">
+    @if (selectedGender) { {{ selectedGender | titlecase }} }
+    @else { Tous les produits }
+  </span>
+  @if (selectedSubCat) {
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-item breadcrumb-active">{{ selectedSubCat | titlecase }}</span>
+  }
+</div>
+
+<div class="page-layout">
+
+  <app-filter-sidebar
+    [priceMin]="minPrice"
+    [priceMax]="maxPrice"
+    [allColors]="allColors"
+    (genderChanged)="onGenderChanged($event)"
+    (subCatChanged)="onSubCatChanged($event)"
+    (priceChanged)="onPriceChanged($event)"
+    (colorsChanged)="onColorsChanged($event)"
+    (filtersReset)="onFiltersReset()">
+  </app-filter-sidebar>
+
+  <main class="main-content">
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          type="text"
+          class="search-field"
+          placeholder="Rechercher un produit..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearch()"
+        />
+      </div>
+      <p class="results-count">
+        {{ filteredProducts.length }} produit{{ filteredProducts.length > 1 ? 's' : '' }} trouvé{{ filteredProducts.length > 1 ? 's' : '' }}
+      </p>
+    </div>
+
+    @if (filteredProducts.length > 0) {
+      <div class="products-grid">
+        @for (product of filteredProducts; track product.id) {
+          <app-product-card [product]="product" (addToCart)="onAddToCart($event)"></app-product-card>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p class="empty-icon">🔍</p>
+        <h3 class="empty-title">Aucun produit trouvé</h3>
+        <p class="empty-sub">Essayez de modifier vos filtres.</p>
+        <button class="btn-reset-empty" (click)="onFiltersReset()">Réinitialiser</button>
+      </div>
+    }
+
+  </main>
+</div>
