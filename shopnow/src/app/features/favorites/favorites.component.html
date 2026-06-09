@@ -1,0 +1,31 @@
+<app-header [cartCount]="cartCount()" [favoriteCount]="favoriteCount()"></app-header>
+
+@if (showToast) {
+  <div class="toast-global">✓ Ajouté au panier !</div>
+}
+
+<div class="page-layout">
+  <main class="main-content">
+    <div class="toolbar">
+      <h2 class="page-title">Mes Favoris</h2>
+      <p class="results-count">
+        {{ favorites().length }} produit{{ favorites().length > 1 ? 's' : '' }} en favoris
+      </p>
+    </div>
+
+    @if (favorites().length > 0) {
+      <div class="products-grid">
+        @for (product of favorites(); track product.id) {
+          <app-product-card [product]="product" (addToCart)="onAddToCart($event)"></app-product-card>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p class="empty-icon">♡</p>
+        <h3 class="empty-title">Vous n'avez pas de favoris</h3>
+        <p class="empty-sub">Explorez notre catalogue pour trouver vos produits préférés.</p>
+        <a routerLink="/produits" class="btn-continue">Découvrir les produits</a>
+      </div>
+    }
+  </main>
+</div>

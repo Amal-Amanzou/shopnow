@@ -1,0 +1,123 @@
+<aside class="sidebar">
+
+  <h3 class="sidebar-title">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="4" y1="6" x2="20" y2="6"/>
+      <line x1="8" y1="12" x2="16" y2="12"/>
+      <line x1="11" y1="18" x2="13" y2="18"/>
+    </svg>
+    Filtres
+  </h3>
+
+  <!-- Catégories avec hover submenu -->
+  <div class="filter-section">
+    <h4 class="filter-label">Catégorie</h4>
+
+    <div class="gender-menu">
+      @for (g of genders; track g.key) {
+        <div
+          class="gender-item"
+          (mouseenter)="onGenderHover(g.key)"
+          (mouseleave)="onGenderHover(null)">
+
+          <!-- Bouton genre -->
+          <button
+            class="gender-btn"
+            [class.gender-btn--active]="selectedGender === g.key"
+            (click)="onGenderSelect(g.key)">
+            <span>{{ g.label }}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+
+          <!-- Submenu au hover -->
+          @if (hoveredGender === g.key) {
+            <div class="submenu">
+              @for (sub of subCategories[g.key]; track sub.key) {
+                <button
+                  class="submenu-item"
+                  [class.submenu-item--active]="selectedSubCat === sub.key && selectedGender === g.key"
+                  (click)="onGenderSelect(g.key); onSubCatSelect(sub.key)">
+                  {{ sub.label }}
+                </button>
+              }
+            </div>
+          }
+
+        </div>
+      }
+    </div>
+
+    <!-- Affiche la sélection active -->
+    @if (selectedGender) {
+      <p class="active-filter">
+        {{ selectedGender | titlecase }}
+        @if (selectedSubCat) { › {{ selectedSubCat | titlecase }} }
+      </p>
+    }
+  </div>
+
+ <!-- Prix -->
+<div class="filter-section">
+  <h4 class="filter-label">Prix (MAD)</h4>
+  <div class="price-inputs">
+    <div class="price-input-wrap">
+      <label class="price-input-label">Min</label>
+      <input
+        type="number"
+        class="price-input"
+        [value]="priceMin"
+        (change)="onMinChange($event)"
+        min="0"
+        placeholder="0"
+      />
+    </div>
+    <span class="price-sep">–</span>
+    <div class="price-input-wrap">
+      <label class="price-input-label">Max</label>
+      <input
+        type="number"
+        class="price-input"
+        [(ngModel)]="currentMax"
+        (ngModelChange)="onPriceChange()"
+        [max]="priceMax"
+        placeholder="9999"
+      />
+    </div>
+  </div>
+</div>
+
+  <!-- Couleurs -->
+  @if (allColors.length > 0) {
+    <div class="filter-section">
+      <h4 class="filter-label">Couleur</h4>
+      <div class="colors-grid">
+        @for (color of allColors; track color) {
+          <button
+            class="color-dot"
+            [class.color-dot--selected]="isColorSelected(color)"
+            [style.background]="color"
+            [style.border-color]="color === '#ffffff' ? '#e0e0e0' : color"
+            [title]="getColorName(color)"
+            (click)="onColorToggle(color)">
+            @if (isColorSelected(color)) {
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            }
+          </button>
+        }
+      </div>
+      @if (selectedColors.length > 0) {
+        <p class="color-selected-label">{{ selectedColors.length }} couleur(s) sélectionnée(s)</p>
+      }
+    </div>
+  }
+
+  <!-- Reset -->
+  <button class="btn-reset" (click)="onReset()">
+    Réinitialiser les filtres
+  </button>
+
+</aside>

@@ -1,0 +1,69 @@
+<app-header [cartCount]="cartCount()" [favoriteCount]="favoriteCount()"></app-header>
+
+<div class="cart-page">
+  <h2 class="cart-title">
+    🛒 Mon Panier
+    <span class="cart-count-badge">{{ cartCount() }} article(s)</span>
+  </h2>
+
+  @if (cartItems().length === 0) {
+    <div class="empty-cart">
+      <p class="empty-icon">🛍️</p>
+      <h3>Votre panier est vide</h3>
+      <a routerLink="/produits" class="btn-continue">Continuer mes achats</a>
+    </div>
+  } @else {
+    <div class="cart-layout">
+
+      <!-- Liste articles -->
+      <div class="cart-items">
+        @for (item of cartItems(); track $index) {
+          <div class="cart-item">
+            <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-img" />
+            <div class="item-info">
+              <p class="item-name">{{ item.product.name }}</p>
+              @if (item.selectedSize) {
+                <p class="item-detail">Taille: {{ item.selectedSize }}</p>
+              }
+              @if (item.selectedColor) {
+                <span class="item-color" [style.background]="item.selectedColor"></span>
+              }
+              <p class="item-price">{{ item.product.price }} MAD</p>
+            </div>
+            <div class="item-qty">
+              <button class="qty-btn" (click)="onQuantityChange($index, -1)">−</button>
+              <span class="qty-val">{{ item.quantity }}</span>
+              <button class="qty-btn" (click)="onQuantityChange($index, 1)">+</button>
+            </div>
+            <div class="item-total">
+              {{ item.product.price * item.quantity }} MAD
+            </div>
+            <button class="btn-remove" (click)="onRemove($index)">✕</button>
+          </div>
+        }
+
+        <button class="btn-clear" (click)="onClear()">Vider le panier</button>
+      </div>
+
+      <!-- Résumé -->
+      <div class="cart-summary">
+        <h3 class="summary-title">Résumé de la commande</h3>
+        <div class="summary-row">
+          <span>Sous-total</span>
+          <span>{{ cartTotal() }} MAD</span>
+        </div>
+        <div class="summary-row">
+          <span>Livraison</span>
+          <span class="free">Gratuite</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span>Total</span>
+          <span>{{ cartTotal() }} MAD</span>
+        </div>
+        <a routerLink="/checkout" class="btn-checkout" style="text-decoration: none; display: flex; justify-content: center; align-items: center; box-sizing: border-box;">Passer la commande</a>
+        <a routerLink="/produits" class="btn-continue-small">← Continuer mes achats</a>
+      </div>
+
+    </div>
+  }
+</div>

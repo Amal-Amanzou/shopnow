@@ -1,0 +1,198 @@
+<div class="checkout-wrapper">
+
+  <!-- Stepper -->
+  <div class="stepper-container">
+    <div class="step completed">
+      <div class="step-icon">✓</div>
+      <span class="step-label">Panier</span>
+    </div>
+
+    <div class="step-line completed-line"></div>
+
+    <div class="step" [class.completed]="currentStep > 2" [class.active]="currentStep === 2">
+      <div class="step-icon">2</div>
+      <span class="step-label">Livraison</span>
+    </div>
+
+    <div class="step-line" [class.completed-line]="currentStep > 2"></div>
+
+    <div class="step" [class.pending]="currentStep < 3" [class.active]="currentStep === 3">
+      <div class="step-icon">3</div>
+      <span class="step-label">Paiement</span>
+    </div>
+  </div>
+
+  <div class="checkout-layout">
+
+    <!-- FORMULAIRE -->
+    <div class="checkout-form-container">
+
+      <!-- STEP 2 -->
+      @if (currentStep === 2) {
+        <h2>Adresse de livraison</h2>
+
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="checkout-form">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nom *</label>
+              <input type="text" formControlName="nom" placeholder="Alaoui">
+            </div>
+
+            <div class="form-group">
+              <label>Prénom *</label>
+              <input type="text" formControlName="prenom" placeholder="Sana">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Adresse *</label>
+            <input type="text" formControlName="adresse" placeholder="123 rue des Orangers">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ville *</label>
+              <input type="text" formControlName="ville" placeholder="Casablanca">
+            </div>
+
+            <div class="form-group">
+              <label>Code postal *</label>
+              <input type="text" formControlName="codePostal" placeholder="20000">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Téléphone *</label>
+              <input type="tel" formControlName="telephone" placeholder="06 00 00 00 00">
+            </div>
+
+            <div class="form-group">
+              <label>E-mail *</label>
+              <input type="email" formControlName="email" placeholder="sana@example.com">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-back"
+              (click)="currentStep = 1; router.navigate(['/panier'])">
+              Retour au panier
+            </button>
+
+            <button type="submit" class="btn-submit">
+              Aller au paiement
+            </button>
+          </div>
+
+        </form>
+      }
+
+      <!-- STEP 3 -->
+      @if (currentStep === 3) {
+        <h2>Paiement</h2>
+
+        <form [formGroup]="paymentForm" (ngSubmit)="confirmOrder()" class="checkout-form">
+
+          <div class="payment-methods">
+            <label class="payment-method-label"
+              [class.active]="paymentForm.get('method')?.value === 'LIVRAISON'">
+
+              <input type="radio" formControlName="method" value="LIVRAISON">
+              <span>Paiement à la livraison (Espèces)</span>
+            </label>
+
+            <label class="payment-method-label"
+              [class.active]="paymentForm.get('method')?.value === 'CARTE'">
+
+              <input type="radio" formControlName="method" value="CARTE">
+              <span>Carte bancaire</span>
+            </label>
+          </div>
+
+          @if (paymentForm.get('method')?.value === 'CARTE') {
+
+            <div class="card-form">
+
+              <div class="form-group">
+                <label>Nom sur la carte *</label>
+                <input type="text" formControlName="cardName" placeholder="Ex: Sana Alaoui">
+              </div>
+
+              <div class="form-group">
+                <label>Numéro de carte *</label>
+                <input type="text" formControlName="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Date d'expiration *</label>
+                  <input type="text" formControlName="cardExpiry" placeholder="MM/AA" maxlength="5">
+                </div>
+
+                <div class="form-group">
+                  <label>CVC *</label>
+                  <input type="text" formControlName="cardCvc" placeholder="123" maxlength="3">
+                </div>
+              </div>
+
+            </div>
+          }
+
+          <div class="form-actions">
+            <button type="button" class="btn-back" (click)="currentStep = 2">
+              Retour à la livraison
+            </button>
+
+            <button type="submit" class="btn-submit">
+              Confirmer ma commande
+            </button>
+          </div>
+
+        </form>
+      }
+
+    </div>
+
+    <!-- RÉCAP -->
+    <div class="checkout-summary-container">
+
+      <div class="summary-box">
+        <h3>Récapitulatif</h3>
+
+        <div class="summary-items">
+          @for (item of cartItems(); track $index) {
+            <div class="summary-item">
+              <span class="item-name">
+                {{ item.quantity }} × {{ item.product.name }}
+              </span>
+              <span class="item-price">
+                {{ item.product.price * item.quantity }} MAD
+              </span>
+            </div>
+          }
+        </div>
+
+        <div class="summary-totals">
+          <div class="totals-row">
+            <span>Sous-total</span>
+            <span>{{ cartTotal() }} MAD</span>
+          </div>
+
+          <div class="totals-row">
+            <span>Livraison</span>
+            <span class="text-pink">Gratuite</span>
+          </div>
+        </div>
+
+        <div class="summary-final">
+          <span>Total</span>
+          <span class="final-price">{{ cartTotal() }} MAD</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

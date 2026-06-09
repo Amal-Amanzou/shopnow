@@ -1,0 +1,104 @@
+<app-header [cartCount]="cartCount()" [favoriteCount]="favoriteCount()"></app-header>
+
+<div class="account-page">
+  <div class="account-container">
+    <div class="account-sidebar">
+      <div class="user-profile">
+        <div class="avatar">S</div>
+        <h3>Sana Alaoui</h3>
+        <p>sana@example.com</p>
+      </div>
+      <nav class="account-nav">
+        <a href="#" class="nav-item" [class.active]="activeTab === 'dashboard'" (click)="changeTab('dashboard', $event)">Tableau de bord</a>
+        <a href="#" class="nav-item" [class.active]="activeTab === 'orders'" (click)="changeTab('orders', $event)">Mes commandes</a>
+        <a routerLink="/favoris" class="nav-item">Mes favoris</a>
+        <a href="#" class="nav-item" [class.active]="activeTab === 'settings'" (click)="changeTab('settings', $event)">Paramètres</a>
+        <a href="#" class="nav-item text-danger" (click)="logout($event)">Déconnexion</a>
+      </nav>
+    </div>
+    
+    <div class="account-content">
+      @if (activeTab === 'dashboard') {
+        <h2>Tableau de bord</h2>
+        <p class="welcome-text">Bienvenue sur votre espace personnel. Vous pouvez ici gérer vos informations, consulter vos commandes et suivre vos favoris.</p>
+        
+        <div class="dashboard-cards">
+          <div class="dash-card">
+            <h4>Commandes récentes</h4>
+            <p>Vous n'avez pas encore passé de commande.</p>
+            <a routerLink="/produits" class="btn-dash">Découvrir nos produits</a>
+          </div>
+          <div class="dash-card">
+            <h4>Mes Favoris</h4>
+            <p>Vous avez {{ favoriteCount() }} produit(s) en favoris.</p>
+            <a routerLink="/favoris" class="btn-dash">Voir mes favoris</a>
+          </div>
+        </div>
+      }
+
+      @if (activeTab === 'orders') {
+        <h2>Mes commandes</h2>
+        
+        @if (orders().length > 0) {
+          <div class="orders-list">
+            @for (order of orders(); track order.id) {
+              <div class="order-card">
+                <div class="order-header">
+                  <div>
+                    <span class="order-id">Commande {{ order.id }}</span>
+                    <span class="order-date">{{ order.date | date:'dd/MM/yyyy HH:mm' }}</span>
+                  </div>
+                  <span class="order-status" [class.status-pending]="order.status === 'En cours de traitement'">
+                    {{ order.status }}
+                  </span>
+                </div>
+                
+                <div class="order-body">
+                  <div class="order-items-preview">
+                    @for (item of order.items; track item.product.id) {
+                      <div class="order-item-sm">
+                        <span class="item-qty">{{ item.quantity }}x</span>
+                        <span class="item-name">{{ item.product.name }}</span>
+                      </div>
+                    }
+                  </div>
+                  
+                  <div class="order-summary-col">
+                    <div class="summary-line">
+                      <span>Paiement:</span>
+                      <strong>{{ order.paymentMethod === 'LIVRAISON' ? 'À la livraison' : 'Carte bancaire' }}</strong>
+                    </div>
+                    <div class="summary-line">
+                      <span>Total:</span>
+                      <strong class="text-pink">{{ order.total }} MAD</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state-account">
+            <p>Vous n'avez passé aucune commande pour le moment.</p>
+            <a routerLink="/produits" class="btn-dash">Commencer mes achats</a>
+          </div>
+        }
+      }
+
+      @if (activeTab === 'settings') {
+        <h2>Paramètres</h2>
+        <div class="settings-form">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Nom complet</label>
+            <input type="text" value="Sana Alaoui" class="input-setting" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Adresse e-mail</label>
+            <input type="email" value="sana@example.com" class="input-setting" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          </div>
+          <button class="btn-dash" style="background: #FF6B9D; color: white; border: none; padding: 12px 24px;">Enregistrer les modifications</button>
+        </div>
+      }
+    </div>
+  </div>
+</div>
