@@ -19,11 +19,15 @@ export class CheckoutComponent {
   paymentForm: FormGroup;
   currentStep = 2;
 
+  // Popup state
+  showSuccessPopup = false;
+  orderId = '';
+
   constructor(
     private fb: FormBuilder,
     public cartService: CartService,
     private orderService: OrderService,
-    public router: Router   // ✅ CORRIGÉ (public)
+    public router: Router
   ) {
 
     this.checkoutForm = this.fb.group({
@@ -44,7 +48,7 @@ export class CheckoutComponent {
       cardCvc: ['']
     });
 
-    // ✅ Gestion dynamique des validateurs
+    // Gestion dynamique des validateurs carte
     this.paymentForm.get('method')?.valueChanges.subscribe(method => {
       const cardFields = ['cardNumber', 'cardName', 'cardExpiry', 'cardCvc'];
 
@@ -62,11 +66,11 @@ export class CheckoutComponent {
     });
   }
 
-  // ✅ Signals (Angular moderne)
+  // Signals (Angular moderne)
   cartItems = computed(() => this.cartService.cartItems());
   cartTotal = computed(() => this.cartService.cartTotal());
 
-  // ✅ Étape livraison
+  // Étape livraison
   onSubmit() {
     if (this.checkoutForm.valid) {
       this.currentStep = 3;
@@ -75,7 +79,7 @@ export class CheckoutComponent {
     }
   }
 
-  // ✅ Confirmation commande
+  // Confirmation commande
   confirmOrder() {
     if (this.paymentForm.valid) {
 
@@ -90,15 +94,20 @@ export class CheckoutComponent {
       };
 
       this.orderService.addOrder(order);
-
-      // Nettoyage + redirection
       this.cartService.clearCart();
-      alert('Commande validée avec succès !');
 
-      this.router.navigate(['/mon-compte']); // ✅ OK maintenant
+      // Affiche la popup de succès
+      this.orderId = order.id;
+      this.showSuccessPopup = true;
 
     } else {
       this.paymentForm.markAllAsTouched();
     }
+  }
+
+  // Fermer la popup et rediriger
+  closePopupAndRedirect() {
+    this.showSuccessPopup = false;
+    this.router.navigate(['/mon-compte']);
   }
 }

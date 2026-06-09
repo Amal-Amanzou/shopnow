@@ -1,49 +1,189 @@
 <!-- src/app/shared/components/header/header.component.html -->
+
 <header class="header">
-  <div class="header-inner">
 
-    <!-- Logo -->
-    <a routerLink="/produits" class="logo">
-      <span class="logo-icon">S</span>
-      <span class="logo-text">ShopNow</span>
-    </a>
+<div class="header-inner">
 
-    <!-- Barre de recherche (décorative pour l'instant) -->
-    <div class="search-bar">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input type="text" placeholder="Rechercher un produit..." class="search-input" [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" />
-    </div>
 
-    <!-- Navigation -->
-    <nav class="nav">
-      <!-- Badge favoris -->
-      <a routerLink="/favoris" class="fav-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-        Favoris
-        @if (favoriteCount > 0) {
-          <span class="cart-badge">{{ favoriteCount }}</span>
-        }
-      </a>
+<!-- Logo -->
 
-      <a routerLink="/mon-compte" class="nav-link">Mon compte</a>
+<a routerLink="/produits" class="logo">
 
-      <!-- Badge panier -->
-      <a routerLink="/panier" class="cart-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 01-8 0"/>
-        </svg>
-        Panier
-        @if (cartCount > 0) {
-          <span class="cart-badge">{{ cartCount }}</span>
-        }
-      </a>
-    </nav>
+<svg viewBox="0 0 340 340" width="72" height="72" xmlns="http://www.w3.org/2000/svg">
 
-  </div>
+<defs>
+
+<linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+
+<stop offset="0%" style="stop-color:#f9b8d0"/>
+
+<stop offset="40%" style="stop-color:#e05c80"/>
+
+<stop offset="100%" style="stop-color:#f9b8d0"/>
+
+</linearGradient>
+
+<linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+
+<stop offset="0%" style="stop-color:#fff8fb"/>
+
+<stop offset="100%" style="stop-color:#fdedf4"/>
+
+</linearGradient>
+
+<radialGradient id="glowBg" cx="50%" cy="50%" r="50%">
+
+<stop offset="0%" style="stop-color:#ffe4f0;stop-opacity:0.6"/>
+
+<stop offset="100%" style="stop-color:#fff8fb;stop-opacity:0"/>
+
+</radialGradient>
+
+</defs>
+
+<circle cx="170" cy="170" r="150" fill="url(#glowBg)"/>
+
+<circle cx="170" cy="170" r="148" fill="none" stroke="#fadadf" stroke-width="0.6" stroke-dasharray="3 6"/>
+
+<circle cx="170" cy="170" r="136" fill="none" stroke="#fce0eb" stroke-width="5"/>
+
+<circle cx="170" cy="170" r="132" fill="url(#bgGrad)" stroke="url(#ringGrad)" stroke-width="2.5"/>
+
+<circle cx="170" cy="170" r="124" fill="none" stroke="#f8c8da" stroke-width="0.6"/>
+
+<circle cx="170" cy="170" r="118" fill="none" stroke="#fce4ee" stroke-width="0.4"/>
+
+<line x1="145" y1="46" x2="158" y2="46" stroke="#d4607e" stroke-width="1"/>
+
+<polygon points="170,36 175,46 170,56 165,46" fill="#d4607e"/>
+
+<line x1="182" y1="46" x2="195" y2="46" stroke="#d4607e" stroke-width="1"/>
+
+<circle cx="138" cy="46" r="1.5" fill="#f0a0be"/>
+
+<circle cx="202" cy="46" r="1.5" fill="#f0a0be"/>
+
+<text x="170" y="158" text-anchor="middle"
+
+font-family="Palatino Linotype, Palatino, Book Antiqua, Georgia, serif"
+
+font-size="54" font-style="italic" font-weight="400"
+
+fill="#b83868" letter-spacing="-1">Shop</text>
+
+<line x1="95" y1="172" x2="138" y2="172" stroke="#f0b0cc" stroke-width="0.8"/>
+
+<circle cx="150" cy="172" r="1.5" fill="#e07090"/>
+
+<circle cx="162" cy="172" r="1.5" fill="#e07090"/>
+
+<circle cx="170" cy="172" r="3" fill="#d4607e"/>
+
+<circle cx="178" cy="172" r="1.5" fill="#e07090"/>
+
+<circle cx="190" cy="172" r="1.5" fill="#e07090"/>
+
+<line x1="202" y1="172" x2="245" y2="172" stroke="#f0b0cc" stroke-width="0.8"/>
+
+<text x="170" y="200" text-anchor="middle"
+
+font-family="Palatino Linotype, Palatino, Book Antiqua, Georgia, serif"
+
+font-size="17" font-style="italic"
+
+fill="#d4607e" letter-spacing="10">Now</text>
+
+<text x="170" y="222" text-anchor="middle"
+
+font-family="Palatino Linotype, Palatino, Georgia, serif"
+
+font-size="7.5" fill="#e8b0c8" letter-spacing="4">MAISON DE MODE</text>
+
+<line x1="145" y1="294" x2="158" y2="294" stroke="#d4607e" stroke-width="1"/>
+
+<polygon points="170,284 175,294 170,304 165,294" fill="#d4607e"/>
+
+<line x1="182" y1="294" x2="195" y2="294" stroke="#d4607e" stroke-width="1"/>
+
+<circle cx="138" cy="294" r="1.5" fill="#f0a0be"/>
+
+<circle cx="202" cy="294" r="1.5" fill="#f0a0be"/>
+
+</svg>
+
+</a>
+
+
+<!-- Barre de recherche (dÃ©corative pour l'instant) -->
+
+<div class="search-bar">
+
+<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+
+</svg>
+
+<input type="text" placeholder="Rechercher un produit..." class="search-input" [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" />
+
+</div>
+
+
+<!-- Navigation -->
+
+<nav class="nav">
+
+<!-- Badge favoris -->
+
+<a routerLink="/favoris" class="fav-btn">
+
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+
+</svg>
+
+Favoris
+
+@if (favoriteCount > 0) {
+
+<span class="cart-badge">{{ favoriteCount }}</span>
+
+}
+
+</a>
+
+
+<a routerLink="/mon-compte" class="nav-link">Mon compte</a>
+
+
+<!-- Badge panier -->
+
+<a routerLink="/panier" class="cart-btn">
+
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+
+<path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+
+<line x1="3" y1="6" x2="21" y2="6"/>
+
+<path d="M16 10a4 4 0 01-8 0"/>
+
+</svg>
+
+Panier
+
+@if (cartCount > 0) {
+
+<span class="cart-badge">{{ cartCount }}</span>
+
+}
+
+</a>
+
+</nav>
+
+
+</div>
+
 </header>

@@ -27,7 +27,7 @@
     <!-- FORMULAIRE -->
     <div class="checkout-form-container">
 
-      <!-- STEP 2 -->
+      <!-- STEP 2 : Livraison -->
       @if (currentStep === 2) {
         <h2>Adresse de livraison</h2>
 
@@ -88,7 +88,7 @@
         </form>
       }
 
-      <!-- STEP 3 -->
+      <!-- STEP 3 : Paiement -->
       @if (currentStep === 3) {
         <h2>Paiement</h2>
 
@@ -97,21 +97,18 @@
           <div class="payment-methods">
             <label class="payment-method-label"
               [class.active]="paymentForm.get('method')?.value === 'LIVRAISON'">
-
               <input type="radio" formControlName="method" value="LIVRAISON">
               <span>Paiement à la livraison (Espèces)</span>
             </label>
 
             <label class="payment-method-label"
               [class.active]="paymentForm.get('method')?.value === 'CARTE'">
-
               <input type="radio" formControlName="method" value="CARTE">
               <span>Carte bancaire</span>
             </label>
           </div>
 
           @if (paymentForm.get('method')?.value === 'CARTE') {
-
             <div class="card-form">
 
               <div class="form-group">
@@ -154,7 +151,7 @@
 
     </div>
 
-    <!-- RÉCAP -->
+    <!-- RÉCAPITULATIF -->
     <div class="checkout-summary-container">
 
       <div class="summary-box">
@@ -195,4 +192,30 @@
     </div>
 
   </div>
+
+  <!-- POPUP DE SUCCÈS -->
+  @if (showSuccessPopup) {
+    <div class="popup-overlay" (click)="closePopupAndRedirect()">
+      <div class="popup-box" (click)="$event.stopPropagation()">
+
+        <div class="popup-icon">✓</div>
+
+        <h2>Commande confirmée !</h2>
+
+        <p>
+          Votre commande <strong>{{ orderId }}</strong> a bien été enregistrée.
+        </p>
+
+        <p class="popup-sub">
+          Vous pouvez suivre votre commande dans votre espace client.
+        </p>
+
+        <button class="btn-submit popup-btn" (click)="closePopupAndRedirect()">
+          Voir mes commandes
+        </button>
+
+      </div>
+    </div>
+  }
+
 </div>

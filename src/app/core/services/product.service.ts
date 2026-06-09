@@ -708,20 +708,7 @@ export class ProductService {
 },
 
 // ===== CHAUSSURES =====
-{
-  id: 60,
-  name: 'Sneakers Blanches Classiques',
-  gender: 'HOMME',
-  subCategory: 'CHAUSSURES',
-  price: 499,
-  stock: 20,
-  rating: 4.8,
-  reviewCount: 215,
-  description: 'Sneakers blanches en cuir classiques, semelle caoutchouc, style iconique intemporel.',
-  imageUrl: 'images/m51.jpg',
-  colors: ['#ffffff'],
-  sizes: ['40', '41', '42', '43', '44', '45']
-},
+
 {
   id: 61,
   name: 'Oxford Noir Élégant',

@@ -29,6 +29,11 @@
   text-decoration: none;
   flex-shrink: 0;
 }
+.logo svg {
+
+display: block;
+
+}
 
 .logo-icon {
   width: 32px;
